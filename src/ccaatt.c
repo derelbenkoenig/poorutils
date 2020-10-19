@@ -63,9 +63,11 @@ static void copy_stream(int fd)
 			outbuf[1 + 2 * i] = inbuf[i];
 		}
 
-		nwritten = write(1, outbuf, 2 * nread);
+		int bytes_to_write = 2 * nread;
+
+		nwritten = write(1, outbuf, bytes_to_write);
 		/* assume that writes to stdout should always complete in one call */
-		if (nwritten < nread) {
+		if (nwritten < bytes_to_write) {
 			perror("error writing output");
 			exit(1);
 		}
